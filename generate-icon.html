@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Icon - Clay Field Name Finder</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        canvas {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        button {
+            background: #5B4FFF;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #4A3FDD;
+        }
+        .instructions {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #0369a1;
+        }
+        .instructions ol {
+            color: #334155;
+            line-height: 1.8;
+        }
+        code {
+            background: #e0e7ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Icon Generator</h1>
+        <p>Clay Field Name Finder Extension</p>
+        
+        <canvas id="icon" width="128" height="128"></canvas>
+        
+        <br>
+        <button onclick="downloadIcon()">⬇️ Download icon.png</button>
+        
+        <div class="instructions">
+            <h3>📝 How to use:</h3>
+            <ol>
+                <li>Click the "Download icon.png" button above</li>
+                <li>Save the file as <code>icon.png</code> in your extension folder:<br>
+                    <code>/Users/mhattori/Documents/clay-field-name-finder/</code>
+                </li>
+                <li>Go to <code>chrome://extensions/</code></li>
+                <li>Load the "Clay Field Name Finder" extension</li>
+                <li>The icon should appear! 🎉</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Draw the icon
+        const canvas = document.getElementById('icon');
+        const ctx = canvas.getContext('2d');
+        const size = 128;
+
+        // Create gradient background (purple theme)
+        const gradient = ctx.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#5B4FFF');
+        gradient.addColorStop(1, '#7C3AED');
+        
+        // Fill background
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, size, size);
+        
+        // Draw magnifying glass icon
+        // Circle
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 10;
+        ctx.beginPath();
+        ctx.arc(size * 0.4, size * 0.4, size * 0.22, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Handle
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(size * 0.55, size * 0.55);
+        ctx.lineTo(size * 0.75, size * 0.75);
+        ctx.stroke();
+        
+        // Small ID label
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath();
+        ctx.arc(size * 0.78, size * 0.22, size * 0.14, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('ID', size * 0.78, size * 0.22);
+
+        // Download function
+        function downloadIcon() {
+            const link = document.createElement('a');
+            link.download = 'icon.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            // Visual feedback
+            const button = document.querySelector('button');
+            const originalText = button.textContent;
+            button.textContent = '✓ Downloaded!';
+            button.style.background = '#10b981';
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#5B4FFF';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+
